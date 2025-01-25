@@ -1,10 +1,12 @@
 #include <TinyBME280.h>
-
+#include <SPI.h>
+#include <SD.h>
+const int chipSelect = 4;
 void setup() {
   // Runs once at start or board reset
 
   // Uncomment to change address. Default is 0x77
-  //BME280setI2Caddress(address)
+  BME280setI2Caddress(0x76);
 
   // Begin the I2C connection with BME280
   BME280setup();
@@ -13,7 +15,31 @@ void setup() {
   Serial.begin(9600);
 
   Serial.println("BME280 Interface Example.");
+
+   // Open serial communications and wait for port to open:
+  
+  // wait for Serial Monitor to connect. Needed for native USB port boards only:
+  while (!Serial);
+
+  Serial.print("Initializing SD card...");
+
+  if (!SD.begin(chipSelect)) {
+    Serial.println("you failed bozo. Things to check:");
+    Serial.println("1. did you forget to put the card in again");
+    Serial.println("2. did you mess up the wiring like everything you do?");
+    Serial.println("3. did you change the chipSelect pin to match your shield or module?");
+    Serial.println("did your dementia kick in and you forgot somthing again");
+    Serial.println("Note: press reset button on the board and reopen this Serial Monitor after fixing your issue!");
+    while (true);
+  }
+
+  Serial.println("initialization done.");
 }
+
+
+
+
+
 
 void loop() {
   // Runs forever after setup
@@ -38,39 +64,9 @@ void loop() {
   Serial.print(", Humidity: ");
   Serial.println(humid);
 
-  delay(1000);
-}
-
-
-#include <SPI.h>
-#include <SD.h>
-
-const int chipSelect = 4;
-
-void setup() {
-  // Open serial communications and wait for port to open:
-  Serial.begin(9600);
-  // wait for Serial Monitor to connect. Needed for native USB port boards only:
-  while (!Serial);
-
-  Serial.print("Initializing SD card...");
-
-  if (!SD.begin(chipSelect)) {
-    Serial.println("you failed bozo. Things to check:");
-    Serial.println("1. did you forget to put the card in again");
-    Serial.println("2. did you mess up the wiring like everything you do?");
-    Serial.println("3. did you change the chipSelect pin to match your shield or module?");
-    Serial.println("did your dementia kick in and you forgot somthing again");
-    Serial.println("Note: press reset button on the board and reopen this Serial Monitor after fixing your issue!");
-    while (true);
-  }
-
-  Serial.println("initialization done.");
-}
-
-void loop() {
-  
-  String dataString = "Harish";
+  delay(100);
+/////////////////////SD CARD CODE///////////////////////////
+  String dataString = "Adhirit has severe autism";
   File dataFile = SD.open("datalog.txt", FILE_WRITE);
 
   // if the file is available, write to it:
@@ -85,4 +81,6 @@ void loop() {
     Serial.println("error opening datalog.txt");
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
