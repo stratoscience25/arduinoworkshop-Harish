@@ -64,9 +64,9 @@ void loop() {
   Serial.print(", Humidity: ");
   Serial.println(humid);
 
-  delay(100);
+  delay(1000);
 /////////////////////SD CARD CODE///////////////////////////
-  String dataString = "Adhirit has severe autism";
+  String dataString = (String)temp + "," + (String)press + "," + (String)humid;
   File dataFile = SD.open("datalog.txt", FILE_WRITE);
 
   // if the file is available, write to it:
